@@ -71,7 +71,7 @@ img {
 
 .container {
     width: 100%;
-    max-width: 1200px;
+    max-width: 1350px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -96,18 +96,19 @@ img {
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3);
 }
+/* Accent Button — override base */
 .btn-accent {
-    background: var(--accent);
-    color: #0B7077;
-    border: 2px solid #0B7077;
+    background: var(--primary);   /* primary */
+    color: #ffffff;               /* white text */
 }
 
+/* HOVER — invert colors */
 .btn-accent:hover {
-    background: var(--primary);
-    color: var(--white);
+    background: #ffffff;          /* white */
+    color: var(--primary);        /* primary text */
     border-color: var(--primary);
     transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(255, 255, 255, 0.3);
+    box-shadow: 0 6px 15px rgba(11,112,119,0.25);
 }
 
 [id] {
@@ -121,6 +122,7 @@ img {
 .section-title {
     text-align: center;
     margin-bottom: 60px;
+    color: var(--primary);
 }
 
 /* Header Styles */
@@ -269,37 +271,12 @@ header.container {
     margin-bottom: 30px;
 }
 
-.btn {
-    display: inline-block;
-    padding: 12px 30px;
-    background: var(--primary);
-    color: white;
-    text-decoration: none;
-    border-radius: 30px;
-    font-weight: 600;
-    transition: var(--transition);
-    border: none;
-    cursor: pointer;
-}
-
-.btn:hover {
-    background: var(--secondary);
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(67, 97, 238, 0.3);
-}
-
-.btn-accent {
-    background: var(--accent);
-}
-
-.btn-accent:hover {
-    background: #d81b60;
-}
 
 .reviews {
     display: flex;
     align-items: center;
     gap: 10px;
+    margin-bottom: 20px;
 }
 
 .reviews .stars {
@@ -357,10 +334,23 @@ header.container {
 
 /* ----------- FIXED 768px BREAKPOINT ----------- */
 @media (max-width: 768px) {
-    .hero-img {
-        max-height: 300px;
+   
+    .hero-image {
+      width: 100%;
+      display: flex;
+      justify-content: center;   /* center horizontally */
     }
-    
+
+    .hero-img {
+      width: 80% !important;      /* increase size */
+      max-width: 380px !important;
+      height: auto !important;
+      object-fit: contain;
+      margin: 0 auto;             /* center it */
+      display: block;
+    }
+
+
     .hero-btns {
         flex-direction: row !important;        /* FIX: Buttons side-by-side */
         justify-content: flex-start !important;
@@ -404,7 +394,7 @@ header.container {
 
 .service-card:hover {
     transform: translateY(-10px);
-    box-shadow: 0 15px 30px #0B7077;
+    box-shadow: 0 10px 20px #169ea825;
 }
 
 .service-icon {
@@ -419,33 +409,34 @@ header.container {
 }
 
 /* Projects */
-
-/* Projects Grid */
+/* Projects grid (keeps your original responsive grid) */
 .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 30px;
 }
 
+/* Card base */
 .project-card {
     position: relative;
     width: 280px;
     height: 300px;
-    border: 2px solid;
     background: white;
     border-radius: 10px;
     overflow: hidden;
-    border: 2px solid;
     box-shadow: var(--box-shadow);
-    transition: var(--transition);
+    transition: transform 0.35s ease, box-shadow 0.35s ease; /* avoids using var(--transition) to be explicit */
     text-align: center;
+    cursor: pointer;
 }
 
+/* hover lift - smaller than before so it doesn't conflict with open state */
 .project-card:hover {
-    transform: translateY(-30px);
-    box-shadow: 0 15px 30px #0B7077;
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(11,112,119,0.12);
 }
 
+/* Image & title (kept from your original) */
 .project-img {
     width: 100%;
     height: 235px;
@@ -460,8 +451,93 @@ header.container {
     font-size: 1rem;
     margin: 0;
 }
+.details-text {
+    font-size: 0.90rem;
+    line-height: 1.15rem;
+    color: #444;
+    margin-bottom: 2px;
+    text-align: start;
+}
+/* -------------------------
+   CARD DETAILS (slide-up)
+   ------------------------- */
 
-/* Responsive */
+/* Panel sits absolutely at the bottom of the card and is hidden by translating 100% down */
+.card-details {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: translateY(100%); /* hidden */
+    transition: transform 0.35s cubic-bezier(.2,.9,.2,1);
+    will-change: transform;
+    background: #ffffff;
+    box-shadow: 0 -6px 18px rgba(11,112,119,0.06);
+    padding: 0;
+    pointer-events: none; /* disable interactions while hidden */
+    z-index: 5;
+}
+
+/* Inner padding/scroll for taller content */
+.card-details-inner {
+    padding: 16px;
+    max-height: 250px;
+    overflow-y: auto;
+}
+
+/* When card is opened add .open to the card element — slide the panel up */
+.project-card.open .card-details {
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+/* Slight visual emphasis for open card */
+.project-card.open {
+    box-shadow: 0 18px 36px rgba(11,112,119,0.12);
+}
+
+/* Enroll button (kept from your original but adjusted) */
+.btn-enroll {
+    width: 100%;
+    display: inline-block;
+    margin-top: 5px;
+    background: #0B7077;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: none;
+    font-weight: bold;
+}
+
+/* Small fade-in used for any fallback details-box if used elsewhere */
+.details-box {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    animation: fadeIn 0.4s ease;
+}
+.details-box.active { display: block; }
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* -------------------------
+   Accessibility & responsive
+   ------------------------- */
+
+/* Respect user preference for reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    .project-card, .card-details, .details-box { transition: none !important; transform: none !important; }
+    .card-details { position: relative; pointer-events: auto; }
+}
+
+/* Responsive: switch to single column on smaller screens */
 @media (max-width: 768px) {
     .projects-grid {
         display: flex;
@@ -472,15 +548,25 @@ header.container {
 
     .projects-grid .project-card {
         width: 90%; /* or set a fixed width like 320px if you want */
-        max-width: 400px;
+        max-width: 420px;
         margin-bottom: 20px;
+        height: auto; /* let card grow on mobile so details fit */
     }
+
+    /* make inner details area smaller on very small screens */
+    .card-details-inner { max-height: 300px; }
 
     .section-title {
         font-size: 2rem;
         text-align: center;
     }
 }
+
+/* Optional: ensure images don't push the height on small screens */
+@media (max-width: 480px) {
+    .project-img { height: 200px; }
+}
+
 
 
 
@@ -511,13 +597,12 @@ header.container {
 
 /* Each card keeps your original sizing */
 .testimonial-card {
-  flex: 0 0 350px;             /* same as your original */
+  flex: 0 0 350px;             
   background: white;
   border-radius: var(--border-radius);
   padding: 30px;
   box-shadow: var(--box-shadow);
   position: relative;
-  border: 2px solid;
   overflow: hidden;
 }
 
@@ -582,8 +667,7 @@ header.container {
 .author-info h4 { margin-bottom: 5px; color: var(--primary); }
 .author-info p  { color: var(--dark); font-size: 0.9rem; margin: 0; }
 
-/* Remove the auto-scroll keyframe usage — keep keyframes in file if you want, but they are unused now */
-/* @keyframes scroll { 0% { transform: translateX(0%); } 100% { transform: translateX(-100%); } } */
+
 
 /* Grid container */
 .testimonial-grid {
@@ -681,7 +765,6 @@ header.container {
   font-weight: 600;
   line-height: normal;
   font-size: 1.5rem;
-  margin-bottom: 15px;
   color: var(--primary)
 }
 
@@ -696,7 +779,6 @@ header.container {
 .text-wrapper-19 {
   position: relative;
   width: fit-content;
-  margin-top: -1.00px;
   font-family: "Poppins", Helvetica;
   font-weight: 700;
   color: #160e4b;
@@ -940,7 +1022,7 @@ header.container {
 
   .pricing-card {
     width: 90%;
-    max-width: 350px;
+    max-width: 400px;
     height: auto;
     position: relative;
     margin: 0 auto;
@@ -983,7 +1065,7 @@ header.container {
 
   .text-wrapper-19,
   .text-wrapper-22 {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .text-wrapper-20,
@@ -1017,7 +1099,7 @@ header.container {
 
   .text-wrapper-19,
   .text-wrapper-22 {
-    font-size: 20px;
+    font-size: 30px;
   }
 
   .text-wrapper-20,
@@ -1059,7 +1141,7 @@ header.container {
 .faq-question {
     padding: 20px 25px;
     font-size: 1.1rem;
-    font-weight: 600;
+    font-weight: 400;
     cursor: pointer;
     display: flex;
     justify-content: space-between;
@@ -1186,11 +1268,13 @@ footer {
 
 .contact-info li {
     display: flex;
+    align-items: center;   /* 🔥 THIS FIXES THE MISALIGNMENT */
+    gap: 12px;             /* optional: adds clean space */
     margin-bottom: 15px;
 }
 
 .contact-info i {
-    margin-right: 15px;
+    margin-right: 10px;
     color: var(--accent);
 }
 
@@ -1440,14 +1524,88 @@ footer {
 
 .success-message i {
     font-size: 60px;
-    color: var(--success);
+    color: var(--accent);
     margin-bottom: 20px;
 }
 
+
 .success-message h3 {
     margin-bottom: 15px;
-    color: var(--success);
+    color: var(--accent);
+    
+
 }
+
+/* ================================
+   ⭐ SPINNER OVERLAY + ANIMATIONS
+   ================================ */
+
+#spinnerOverlay {
+  display: none;
+  position: absolute;
+  inset: 0;
+  background: rgba(255,255,255,0.9);
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  opacity: 1;
+}
+
+/* Fade-out animation for spinner */
+#spinnerOverlay.hide {
+  animation: fadeOut 0.3s forwards;
+}
+
+/* Spinner pulse animation */
+.spinner {
+  font-weight: 600;
+  font-size: 20px;
+  animation: pulse 0.8s infinite ease-in-out;
+}
+
+/* Pulse effect */
+@keyframes pulse {
+  0%   { transform: scale(1); opacity: 0.7; }
+  50%  { transform: scale(1.15); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.7; }
+}
+
+/* Fade-out keyframe */
+@keyframes fadeOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+
+/* ================================
+   ⭐ FORM FADE-OUT
+   ================================ */
+
+.form-hide {
+  animation: fadeForm 0.25s forwards;
+}
+
+@keyframes fadeForm {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(10px); }
+}
+
+
+/* ================================
+   ⭐ SUCCESS MESSAGE SLIDE-IN
+   ================================ */
+
+.show-success {
+  animation: successSlide 0.35s ease forwards;
+}
+
+@keyframes successSlide {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+
+
 
 /* Responsive Design */
 @media (max-width: 992px) {
@@ -1569,4 +1727,164 @@ footer {
   .hero-content { padding: 14px 12px !important; gap: 12px !important; }
   .hero-text h1 { font-size: 1.6rem !important; }
   .hero-btns .btn { padding: 9px 12px !important; font-size: 0.88rem !important; }
+}
+
+
+
+
+/* ======================
+   POLICY PAGES (Terms/Privacy/Refund)
+   Single consolidated block
+   ====================== */
+
+.terms-section,
+.privacypolicy-section,
+.cancelrefund-section {
+  padding: 80px 0;
+}
+
+/* Back button + title row */
+.terms-title-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 15px;
+}
+
+/* inline back button */
+.back-link-inline {
+  font-size: 1.6rem;
+  color: #0B7077;
+  text-decoration: none;
+  padding: 6px;
+  display: none;               /* shown on mobile via media query */
+  align-items: center;
+  justify-content: center;
+}
+
+/* Title */
+.terms-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--primary);
+  margin: 0;
+  line-height: 1.05;
+}
+
+/* Remove any underline/border near the title for these pages */
+.terms-title-row,
+.terms-title {
+  border-bottom: none !important;
+}
+
+
+/* meta */
+.last-updated {
+  font-size: 1rem;
+  margin: 12px 0 18px;
+  color: var(--primary);
+  font-weight: 500;
+}
+
+/* divider (optional) */
+.divider {
+  height: 2px;
+  border: none;
+  background: #e0e0e0;
+  margin: 16px 0 26px;
+}
+
+.terms-list {
+  margin-left: 20px;
+}
+/* terms content */
+.terms-list h3 {
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: var(--primary);
+  margin: 18px 0 6px;
+  border-bottom: none; /* ensure no underline */
+}
+
+.terms-list p {
+  font-size: 1rem;
+  color: #444;
+  margin-bottom: 12px;
+  line-height: 1.5;
+}
+
+.terms-list ul {
+  padding-left: 1.05rem;
+  margin: 6px 0 12px;
+}
+
+/* Responsive adjustments */
+
+/* Tablet */
+@media (max-width: 1024px) {
+  .terms-section,
+  .privacypolicy-section,
+  .cancelrefund-section { padding: 56px 0; }
+
+  .terms-title { font-size: 2rem; }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+  .terms-section,
+  .privacypolicy-section,
+  .cancelrefund-section { padding: 80px 0; }
+  .terms-section .container,
+  .privacypolicy-section .container,
+  .cancelrefund-section .container {
+    padding-left: 14px;
+    padding-right: 14px;
+  }
+
+  .terms-title-row { gap: 4px; margin-bottom: 10px; }
+
+  .back-link-inline {
+    display: inline-flex;
+    width: 36px;
+    height: 36px;
+    font-size: 1.25rem;
+    border-radius: 8px;
+  }
+
+  .terms-title {
+    font-size: 1.25rem;  /* smaller title on mobile */
+    line-height: 1.15;
+  }
+
+  .last-updated { font-size: 0.95rem; margin-bottom: 10px; }
+
+  .divider { margin: 12px 0 14px; }
+
+  .terms-list h3 { font-size: 0.98rem; margin-top: 10px; }
+  .terms-list p  { font-size: 0.9rem; line-height: 1.35; margin-bottom: 10px; }
+}
+
+/* Small phones */
+@media (max-width: 480px) {
+  .back-link-inline { font-size: 1.1rem; width: 34px; height: 34px; }
+  .terms-title { font-size: 1.1rem; line-height: 1.2; }
+  .terms-list h3 { font-size: 0.95rem; }
+  .terms-list p { font-size: 0.85rem; line-height: 1.3; }
+}
+
+/* Hide mobile menu and hamburger on policy pages (desktop will show nav) */
+body.terms-page header .nav-links,
+body.terms-page header .menu-toggle {
+  display: none !important;
+}
+@media (min-width: 769px) {
+  body.terms-page header .nav-links { display: flex !important; }
+  body.terms-page header .menu-toggle { display: none !important; }
+}
+
+/* Remove the decorative h2::after only on policy pages */
+.terms-page .terms-title::after,
+.terms-page .privacypolicy-section .terms-title::after,
+.terms-page .cancelrefund-section .terms-title::after {
+  display: none !important;
 }
