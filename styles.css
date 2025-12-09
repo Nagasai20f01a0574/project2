@@ -431,10 +431,24 @@ header.container {
     .hero-text h3 {
         font-size: 2rem;
     }
-    
+        
     .hero-btns {
-        justify-content: flex-start !important;   /* FIX: Left align buttons */
-    }
+        width: 100%;
+        padding: 0 !important;           
+        margin: 0 !important;
+        justify-content: space-between !important; /* Spread buttons left & right */
+      }
+
+      .hero-btns .btn {
+        flex: 1;                         /* Both buttons equal width */
+        text-align: center;
+        padding: 12px 0 !important;
+        white-space: nowrap;
+      }
+
+      .hero-btns .btn:first-child {
+        margin-right: 8px;               /* Small spacing between buttons */
+      }
 }
 
 /* ----------- FIXED 768px BREAKPOINT ----------- */
@@ -451,12 +465,13 @@ header.container {
         flex-direction: row !important;        /* FIX: Buttons side-by-side */
         justify-content: flex-start !important;
         gap: 10px;                              /* Small gap between buttons */
-        width: 100%;
+        margin: 0 !important;
     }
 
     .hero-btns .btn {
         width: auto !important;                /* FIX: Prevent full-width buttons */
         white-space: nowrap;                   /* Prevent text breaking */
+        margin: 0 !important;
     }
 
     header .site-name {
@@ -1832,21 +1847,7 @@ footer {
     margin-top: 8px;
   }
 
-  /* Keep buttons side-by-side on phones (do not stack) */
-  .hero-btns {
-    flex-direction: row !important;
-    gap: 10px !important;
-    justify-content: flex-start !important;
-    width: 100%;
-    flex-wrap: nowrap;
-  }
 
-  .hero-btns .btn {
-    width: auto !important;
-    padding: 10px 16px !important;
-    font-size: 0.95rem !important;
-    white-space: nowrap !important;
-  }
 
   /* Make H1s mobile friendly (single-line friendly) */
   .hero-text h1 { font-size: 1.9rem !important; line-height: 1.05; }
