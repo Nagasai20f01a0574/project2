@@ -98,14 +98,14 @@ img {
 }
 /* Accent Button — override base */
 .btn-accent {
-    background: var(--primary);   /* primary */
-    color: #ffffff;               /* white text */
+    background: #ffffff;   /* primary */
+    color: var(--primary);               /* white text */
 }
 
 /* HOVER — invert colors */
 .btn-accent:hover {
-    background: #ffffff;          /* white */
-    color: var(--primary);        /* primary text */
+    background: var(--primary);          /* white */
+    color:  #ffffff;        /* primary text */
     border-color: var(--primary);
     transform: translateY(-3px);
     box-shadow: 0 6px 15px rgba(11,112,119,0.25);
@@ -124,6 +124,8 @@ img {
     margin-bottom: 60px;
     color: var(--primary);
 }
+
+
 
 /* Header Styles */
 header {
@@ -208,6 +210,87 @@ header.container {
     padding-left: 0;
     padding-right: 0;
 }
+
+.download-brochure {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 40px;
+  border-radius: 10px;
+  border: 2px solid #0b7077;
+  font-family: "Poppins", Helvetica;
+  font-weight: 700;
+  color: #0b7077;
+  font-size: 16px;
+  text-decoration: none !important;
+}
+@media (max-width: 992px) {
+  .download-brochure {
+    padding: 16px 32px;
+    font-size: 15px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 768px) {
+  .download-brochure {
+    padding: 14px 26px;
+    font-size: 14px;
+    border-radius: 8px;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .download-brochure {
+    padding: 12px 22px;
+    font-size: 13px;
+  }
+}
+
+
+.entrol-now {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 20px 40px;
+  background-color: #0b7077;
+  border-radius: 10px;
+  color: #ffffff;
+  font-family: "Poppins", Helvetica;
+  font-weight: 700;
+  font-size: 16px;
+  letter-spacing: 0.32px;
+  text-decoration: none !important;
+
+}
+
+
+/* === TABLET & MOBILE (≤ 992px) === */
+@media (max-width: 992px) {
+    .entrol-now {
+        padding: 16px 28px;
+        font-size: 15px;
+        width: 100%;
+        justify-content: center;
+
+    }
+}
+
+/* === MOBILE (≤ 768px) === */
+@media (max-width: 768px) {
+    .entrol-now {
+        padding: 14px 24px;
+        font-size: 14px;
+        width: 100%;
+        justify-content: center;
+
+    }
+}
+
+
 /* Hero Section */
 .hero {
     padding: calc(var(--override-header-height) + 12px) 0 40px;
@@ -378,6 +461,7 @@ header.container {
     flex-direction: column;
     justify-content: center;
     height: auto;
+    
   }
 
   .rate img {
@@ -455,6 +539,7 @@ header.container {
 @media (max-width: 768px) {
 
     .hero-image,
+    .picture,
     .hero-img {
       display: none !important;
     }
@@ -628,6 +713,7 @@ header.container {
   padding: 14px 16px;
   cursor: pointer;
   border: none;
+  font-size: 18px;
   font-weight: 700;
   text-align: center;
   border-radius: 0 0 10px 10px; /* rounded bottom edges */
@@ -685,7 +771,7 @@ header.container {
     }
 
     .projects-grid .project-card {
-        width: 90%; /* or set a fixed width like 320px if you want */
+        width: 100%; /* or set a fixed width like 320px if you want */
         max-width: 420px;
         margin-bottom: 20px;
         height: auto; /* let card grow on mobile so details fit */
@@ -1170,7 +1256,7 @@ header.container {
   .section { padding: 40px 0; }
 
   .pricing-card {
-    width: 90%;
+    width: 100%;
     max-width: 400px;
     height: auto;
     position: relative;
@@ -1232,7 +1318,7 @@ header.container {
   }
 
   .pricing-card {
-    width: 95%;
+    width: 100%;
     height: auto;
     margin: 0 auto;
   }
@@ -1495,7 +1581,7 @@ footer {
     
     .nav-links {
         position: absolute;
-        top: 70px;
+        top: 42px;
         left: 0;
         right: 0;
         background: white;
