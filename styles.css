@@ -38,7 +38,7 @@ h1, h2, h3, h4 {
 }
 
 h1 {
-    font-size: 3.5rem;
+    font-size: 1.5rem;
 }
 
 h2 {
@@ -309,6 +309,7 @@ header.container {
     flex: -1;
     max-width: 600px;
     text-align: left;
+    margin-top: 20px;
     
 }
 
@@ -319,11 +320,11 @@ header.container {
 }
 
 .hero-text h1 {
-    font-size: 4rem;
+    font-size: 3.2rem;
     font-weight: 800;
     color: var(--primary);
     margin-bottom: 0;
-    line-height: 1.2;
+    line-height: 1.5;
 }
 
 .hero-text h2 {
@@ -505,7 +506,11 @@ header.container {
     }
     
     .hero-text h1 {
-        font-size: 4rem;
+        font-size: 3.2rem;
+        font-weight: 800;
+        color: var(--primary);
+        margin-bottom: 0;
+        line-height: 1.5;
     }
     
     .hero-text h2 {
@@ -1092,7 +1097,7 @@ header.container {
   height: 22px;
   margin-left: 122px;
   font-family: "Poppins", Helvetica;
-  font-weight: 500;
+  font-weight: 600;
   color: #ffffff;
   font-size: 20px;
   letter-spacing: 0;
@@ -1147,8 +1152,8 @@ header.container {
 }
 
 .pricing-card:hover {
-    border-color: var(--primary);
-    transform: scale(1.03);
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px #169ea825;
 }
 
 .pricing-card.featured {
@@ -1173,7 +1178,7 @@ header.container {
 
 
 /* 📱 Tablet (width ≤ 1024px) */
-@media (max-width: 1024px) {
+@media (max-width: 992px) {
   .pricing-grid {
     display: flex;
     flex-wrap: wrap;
@@ -1196,6 +1201,7 @@ header.container {
   .enroll-now {
     margin: 0 auto;
     font-size: 18px;
+    font-weight: 700;
   }
 
   .frame-20,
@@ -1209,10 +1215,6 @@ header.container {
 
 /* 📱 Mobile (width ≤ 768px) */
 @media (max-width: 768px) {
-   /* Global headings */
-  h1 { font-size: 2.2rem; line-height: 1.15; }
-  h2 { font-size: 1.6rem; line-height: 1.18; }
-  h3 { font-size: 1.3rem; line-height: 1.2; }
 
   /* Hero specific (overrides earlier hero-text sizes) */
   .hero-text h1 { font-size: 2.2rem; margin-bottom: 12px; }
@@ -1231,7 +1233,7 @@ header.container {
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 25px;
+    gap: 25px !important;
     padding: 0 15px 40px;
     margin: 0 auto;
   }
@@ -1257,10 +1259,9 @@ header.container {
 
   .pricing-card {
     width: 100%;
-    max-width: 400px;
     height: auto;
     position: relative;
-    margin: 0 auto;
+    margin-bottom: 25px !important;
   }
 
   .frame-20,
@@ -1290,12 +1291,18 @@ header.container {
   }
 
   .enroll-now {
-    font-size: 16px;
+    font-size: 18px;
     text-align: center;
+    font-weight: 600;
   }
+  .contact-btn {
+    text-decoration: none !important;
+    display: block;
+}
 
   .text-wrapper-18 {
-    font-size: 1rem;
+    font-size: 1.2rem;
+    margin-top: 10px;
   }
 
   .text-wrapper-19,
@@ -1352,6 +1359,7 @@ header.container {
 
   .enroll-now {
     font-size: 15px;
+    font-weight: 600;
   }
 }
 
@@ -1600,11 +1608,7 @@ footer {
     .nav-links li {
         margin: 15px 0;
     }
-    
-    .hero h1 {
-        font-size: 2rem;
-    }
-    
+      
     .section {
         padding: 60px 0;
     }
@@ -1770,45 +1774,51 @@ footer {
     
 
 }
-
-/* ================================
-   ⭐ SPINNER OVERLAY + ANIMATIONS
-   ================================ */
-
+/* ================= SENDING OVERLAY (LOTTIE) ================= */
 #spinnerOverlay {
-  display: none;
-  position: absolute;
-  inset: 0;
-  background: rgba(255,255,255,0.9);
+  display: none;               /* JS toggles display */
+  position: fixed;
+  inset: 0;                    /* top:0; right:0; bottom:0; left:0; */
+  background: rgba(255,255,255,0.92);
+  z-index: 3000;               /* above modal */
+  display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 8px;
-  opacity: 1;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
-/* Fade-out animation for spinner */
-#spinnerOverlay.hide {
-  animation: fadeOut 0.3s forwards;
-}
-
-/* Spinner pulse animation */
+/* Spinner content layout */
 .spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  background: transparent;
+}
+
+/* Text below the animation */
+.sending-text {
   font-weight: 600;
-  font-size: 20px;
-  animation: pulse 0.8s infinite ease-in-out;
+  color: var(--primary, #0B7077);
+  font-size: 16px;
 }
 
-/* Pulse effect */
-@keyframes pulse {
-  0%   { transform: scale(1); opacity: 0.7; }
-  50%  { transform: scale(1.15); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.7; }
+/* fade-out helper for JS */
+#spinnerOverlay.hide {
+  animation: spinnerFadeOut 0.28s forwards;
 }
 
-/* Fade-out keyframe */
-@keyframes fadeOut {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+@keyframes spinnerFadeOut {
+  from { opacity: 1; transform: translateY(0); }
+  to   { opacity: 0; transform: translateY(-6px); }
+}
+
+/* Mobile tweaks */
+@media (max-width: 480px) {
+  #spinnerOverlay .spinner { gap: 6px; }
+  .sending-text { font-size: 14px; }
+  lottie-player#sendLottie { width: 100px !important; height: 100px !important; }
 }
 
 
@@ -1870,11 +1880,7 @@ footer {
     .search-bar {
         margin-top: 15px;
     }
-    
-    .hero h1 {
-        font-size: 32px;
-    }
-    
+  
     .services-grid, .testimonials-grid, .pricing-grid {
         grid-template-columns: 1fr;
     }
@@ -1936,7 +1942,6 @@ footer {
 
 
   /* Make H1s mobile friendly (single-line friendly) */
-  .hero-text h1 { font-size: 1.9rem !important; line-height: 1.05; }
   .hero-text p  { font-size: 1rem !important; margin-bottom: 10px; }
 
   /* keep header compact */

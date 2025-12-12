@@ -306,7 +306,6 @@ document.addEventListener('DOMContentLoaded', function() {
 // =======================
 // 🧾 CONTACT FORM SUBMISSION (client-side)
 // =======================
-
 document.addEventListener('DOMContentLoaded', function () {
   // Elements
   const modal = document.getElementById('contactModal');
@@ -317,6 +316,7 @@ document.addEventListener('DOMContentLoaded', function () {
   const contactFormContainer = document.getElementById('contactFormContainer');
   const successMessage = document.getElementById('successMessage');
   const spinnerOverlay = document.getElementById('spinnerOverlay');
+  const sendLottie = document.getElementById('sendLottie'); // lottie player
 
   // Defensive guards
   const submitBtn = contactForm ? contactForm.querySelector('button[type="submit"]') : null;
@@ -338,57 +338,50 @@ document.addEventListener('DOMContentLoaded', function () {
   if (closeSuccess) closeSuccess.addEventListener('click', () => { modal.style.display = 'none'; });
   window.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
 
-// Helper: show success panel (with animation + reset spinner/button)
-function showSuccess() {
-
-  // ⭐ Smooth spinner fade-out animation
-  if (spinnerOverlay) {
-    spinnerOverlay.classList.add("hide");   // start fade-out animation
-
-    setTimeout(() => {
-      spinnerOverlay.style.display = "none"; // fully hide
-      spinnerOverlay.classList.remove("hide");
-    }, 300); // fade-out duration must match CSS
-  }
-
-  // Enable submit button again
-  if (submitBtn) {
-    submitBtn.disabled = false;
-    submitBtn.style.opacity = '';
-    submitBtn.style.cursor = '';
-  }
-
-  // ⭐ Fade-out form (optional but recommended)
-  if (contactFormContainer) {
-    contactFormContainer.classList.add("form-hide");
-
-    setTimeout(() => {
-      contactFormContainer.style.display = 'none';
-      contactFormContainer.classList.remove("form-hide");
-    }, 250);
-  }
-
-  // ⭐ Slide / fade-in success message
-  setTimeout(() => {
-    if (successMessage) {
-      successMessage.style.display = 'block';
-      successMessage.classList.add("show-success");
+  function showSuccess() {
+    // stop lottie if playing
+    if (sendLottie && typeof sendLottie.stop === 'function') {
+      try { sendLottie.stop(); } catch (err) {}
     }
-  }, 260);
 
-  // Reset form
-  if (contactForm) contactForm.reset();
-}
+    // fade-out overlay
+    if (spinnerOverlay) {
+      spinnerOverlay.classList.add("hide");
+      setTimeout(() => {
+        spinnerOverlay.style.display = "none";
+        spinnerOverlay.classList.remove("hide");
+      }, 300);
+    }
 
+    if (submitBtn) {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '';
+      submitBtn.style.cursor = '';
+    }
 
-  // Minimal handler if form is missing
+    if (contactFormContainer) {
+      contactFormContainer.classList.add("form-hide");
+      setTimeout(() => {
+        contactFormContainer.style.display = 'none';
+        contactFormContainer.classList.remove("form-hide");
+      }, 250);
+    }
+
+    setTimeout(() => {
+      if (successMessage) {
+        successMessage.style.display = 'block';
+        successMessage.classList.add("show-success");
+      }
+    }, 260);
+
+    if (contactForm) contactForm.reset();
+  }
+
   if (!contactForm) return;
 
-  // Submit handler
   contactForm.addEventListener('submit', async function (e) {
     e.preventDefault();
 
-    // Build payload
     const payload = {
       name: (document.getElementById('name')?.value || '').trim(),
       email: (document.getElementById('email')?.value || '').trim(),
@@ -398,8 +391,14 @@ function showSuccess() {
     };
 
     try {
-      // show spinner immediately and disable submit
-      if (spinnerOverlay) spinnerOverlay.style.display = 'flex';
+      // show spinner and play lottie
+      if (spinnerOverlay) {
+        spinnerOverlay.style.display = 'flex';
+        spinnerOverlay.classList.remove('hide');
+      }
+      if (sendLottie && typeof sendLottie.play === 'function') {
+        try { sendLottie.play(); } catch (err) {}
+      }
       if (submitBtn) {
         submitBtn.disabled = true;
         submitBtn.style.opacity = '0.7';
@@ -407,12 +406,9 @@ function showSuccess() {
       }
 
       const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyrknD-0nXM-n0jAvJmzsKIJrmVPD1FFELsoIxCRWp7DJWI7W5J65v8ItSlUzrboyH-vA/exec";
-
-      // POST to Apps Script
       const res = await fetch(WEB_APP_URL, {
         method: 'POST',
         body: JSON.stringify(payload)
-        // Note: leaving out Content-Type is fine for GAS endpoints expecting raw postData
       });
 
       const text = await res.text();
@@ -420,18 +416,18 @@ function showSuccess() {
       try { result = JSON.parse(text); } catch (err) { result = { status: 'error', message: text }; }
 
       if (result && result.status === 'success') {
-        // success
         showSuccess();
       } else {
-        // server returned error
+        // stop lottie + hide spinner
+        if (sendLottie && typeof sendLottie.stop === 'function') try{ sendLottie.stop(); }catch(e){}
         if (spinnerOverlay) spinnerOverlay.style.display = 'none';
         if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; submitBtn.style.cursor = ''; }
         alert("Server error: " + (result?.message || "Please try again"));
       }
 
     } catch (err) {
-      // network or unexpected error
       console.error('Submit error:', err);
+      if (sendLottie && typeof sendLottie.stop === 'function') try{ sendLottie.stop(); }catch(e){}
       if (spinnerOverlay) spinnerOverlay.style.display = 'none';
       if (submitBtn) { submitBtn.disabled = false; submitBtn.style.opacity = ''; submitBtn.style.cursor = ''; }
       alert("Network error — check your Web App URL and deployment settings.");
@@ -439,4 +435,3 @@ function showSuccess() {
   });
 
 });
-

@@ -708,11 +708,28 @@ ProjectKits gives you complete, professionally built projects that boost your po
       <p style="font-weight:500;">Our team will contact you on WhatsApp within 24 hours to collect your project requirements and deliver the content accordingly.</p>
       <button class="btn btn-primary" id="closeSuccess">Close</button>
     </div>
-    <div id="spinnerOverlay">
-      <div class="spinner">Sending…</div>
+    <!-- ===== SENDING OVERLAY (LOTTIE PAPER PLANE) =====
+     Add this directly after the contact modal (or near end of <body>) -->
+    <div id="spinnerOverlay" aria-hidden="true" style="display:none;">
+      <div class="spinner">
+        <!-- Lottie player uses the JSON you uploaded. 
+            Ensure the file path matches exactly: mail send as paper plane.json -->
+        <lottie-player
+          id="sendLottie"
+          src="mail send as paper plane.json"
+          background="transparent"
+          speed="1"
+          style="width:120px; height:120px;"
+          loop>
+        </lottie-player>
+
+        <p class="sending-text">Sending…</p>
+      </div>
     </div>
   </div>
 </div>
+<!-- Load Lottie Player -->
+<script src="https://unpkg.com/@lottiefiles/lottie-player@latest/dist/lottie-player.js"></script>
 <script src="script1.js"></script>
 
 <script></script>
