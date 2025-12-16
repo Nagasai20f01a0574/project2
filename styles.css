@@ -1861,12 +1861,18 @@ footer {
   from { opacity: 1; transform: translateY(0); }
   to   { opacity: 0; transform: translateY(-6px); }
 }
+@media (max-width: 792px) {
+  #spinnerOverlay .spinner { gap: 6px; }
+  .sending-text { font-size: 14px; }
+  lottie-player#sendLottie { width:500px; height:500px;}
+}
+
 
 /* Mobile tweaks */
 @media (max-width: 480px) {
   #spinnerOverlay .spinner { gap: 6px; }
   .sending-text { font-size: 14px; }
-  lottie-player#sendLottie { width: 120px !important; height: 120px !important; }
+  lottie-player#sendLottie { width:500px; height:500px;}
 }
 
 
